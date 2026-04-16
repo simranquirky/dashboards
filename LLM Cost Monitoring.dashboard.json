@@ -1,0 +1,1449 @@
+{
+  "version": 8,
+  "dashboardId": "7446585098113134592",
+  "title": "LLM Cost Monitoring",
+  "description": "Monitor LLM usage costs, token consumption, and expensive spans from sre_agent_traces_introspection",
+  "role": "",
+  "owner": "",
+  "created": "2026-04-05T15:50:38.244510088Z",
+  "tabs": [
+    {
+      "tabId": "llm_cost_tab",
+      "name": "LLM Cost Overview",
+      "panels": [
+        {
+          "id": "panel_total_cost",
+          "type": "metric",
+          "title": "Total LLM Cost ($)",
+          "description": "Total LLM cost across all spans",
+          "config": {
+            "show_legends": false,
+            "legends_position": null,
+            "unit": "custom",
+            "unit_custom": "$",
+            "decimals": 4,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "",
+          "queries": [
+            {
+              "query": "SELECT SUM(llm_usage_cost_total) as total_cost FROM sre_agent_traces_introspection WHERE llm_usage_cost_total IS NOT NULL",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [],
+                "y": [
+                  {
+                    "label": "total_cost",
+                    "alias": "total_cost",
+                    "column": "total_cost",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 48,
+            "h": 8,
+            "i": 1
+          }
+        },
+        {
+          "id": "panel_total_input_tokens",
+          "type": "metric",
+          "title": "Total Input Tokens",
+          "description": "Total input tokens consumed",
+          "config": {
+            "show_legends": false,
+            "legends_position": null,
+            "unit": "numbers",
+            "decimals": 0,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "",
+          "queries": [
+            {
+              "query": "SELECT SUM(llm_usage_tokens_input) as input_tokens FROM sre_agent_traces_introspection WHERE llm_usage_tokens_input IS NOT NULL",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [],
+                "y": [
+                  {
+                    "label": "input_tokens",
+                    "alias": "input_tokens",
+                    "column": "input_tokens",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 48,
+            "y": 0,
+            "w": 48,
+            "h": 8,
+            "i": 2
+          }
+        },
+        {
+          "id": "panel_total_output_tokens",
+          "type": "metric",
+          "title": "Total Output Tokens",
+          "description": "Total output tokens generated",
+          "config": {
+            "show_legends": false,
+            "legends_position": null,
+            "unit": "numbers",
+            "decimals": 0,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "",
+          "queries": [
+            {
+              "query": "SELECT SUM(llm_usage_tokens_output) as output_tokens FROM sre_agent_traces_introspection WHERE llm_usage_tokens_output IS NOT NULL",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [],
+                "y": [
+                  {
+                    "label": "output_tokens",
+                    "alias": "output_tokens",
+                    "column": "output_tokens",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 96,
+            "y": 0,
+            "w": 48,
+            "h": 8,
+            "i": 3
+          }
+        },
+        {
+          "id": "panel_llm_calls",
+          "type": "metric",
+          "title": "Total LLM Calls",
+          "description": "Number of LLM spans with cost data",
+          "config": {
+            "show_legends": false,
+            "legends_position": null,
+            "decimals": 0,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "",
+          "queries": [
+            {
+              "query": "SELECT COUNT(_timestamp) as llm_calls FROM sre_agent_traces_introspection WHERE llm_usage_cost_total IS NOT NULL AND llm_usage_cost_total > 0",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [],
+                "y": [
+                  {
+                    "label": "llm_calls",
+                    "alias": "llm_calls",
+                    "column": "llm_calls",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 144,
+            "y": 0,
+            "w": 48,
+            "h": 8,
+            "i": 4
+          }
+        },
+        {
+          "id": "panel_cost_over_time",
+          "type": "bar",
+          "title": "LLM Cost Over Time ($)",
+          "description": "Total LLM cost trend over time",
+          "config": {
+            "show_legends": true,
+            "legends_position": null,
+            "unit": "custom",
+            "unit_custom": "$",
+            "decimals": 4,
+            "line_interpolation": "smooth",
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "sql",
+          "queries": [
+            {
+              "query": "SELECT histogram(_timestamp) as ts, SUM(llm_usage_cost_total) as total_cost FROM sre_agent_traces_introspection WHERE llm_usage_cost_total IS NOT NULL GROUP BY ts ORDER BY ts",
+              "vrlFunctionQuery": "",
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [
+                  {
+                    "label": "ts",
+                    "alias": "ts",
+                    "column": "ts",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  }
+                ],
+                "y": [
+                  {
+                    "label": "",
+                    "alias": "total_cost",
+                    "column": "total_cost",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": "Total Cost"
+              }
+            }
+          ],
+          "layout": {
+            "x": 0,
+            "y": 8,
+            "w": 128,
+            "h": 20,
+            "i": 5
+          },
+          "htmlContent": "",
+          "markdownContent": "",
+          "customChartContent": " // To know more about ECharts , \n// visit: https://echarts.apache.org/examples/en/index.html \n// Example: https://echarts.apache.org/examples/en/editor.html?c=line-simple \n// Define your ECharts 'option' here. \n// 'data' variable is available for use and contains the response data from the search result and it is an array.\noption = {  \n \n};\n  "
+        },
+        {
+          "id": "panel_cost_by_model",
+          "type": "pie",
+          "title": "Cost by Model",
+          "description": "Total cost breakdown by LLM model",
+          "config": {
+            "show_legends": true,
+            "legends_position": null,
+            "decimals": 4,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "",
+          "queries": [
+            {
+              "query": "SELECT gen_ai_request_model as model, SUM(llm_usage_cost_total) as total_cost FROM sre_agent_traces_introspection WHERE llm_usage_cost_total IS NOT NULL AND gen_ai_request_model IS NOT NULL GROUP BY model ORDER BY total_cost DESC",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [
+                  {
+                    "label": "model",
+                    "alias": "model",
+                    "column": "model",
+                    "color": null
+                  }
+                ],
+                "y": [
+                  {
+                    "label": "total_cost",
+                    "alias": "total_cost",
+                    "column": "total_cost",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 128,
+            "y": 8,
+            "w": 64,
+            "h": 20,
+            "i": 6
+          }
+        },
+        {
+          "id": "panel_input_output_cost",
+          "type": "bar",
+          "title": "Input vs Output Cost Over Time ($)",
+          "description": "Breakdown of input and output costs over time",
+          "config": {
+            "show_legends": true,
+            "legends_position": null,
+            "decimals": 4,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "",
+          "queries": [
+            {
+              "query": "SELECT histogram(_timestamp) as ts, SUM(llm_usage_cost_input) as input_cost, SUM(llm_usage_cost_output) as output_cost FROM sre_agent_traces_introspection WHERE llm_usage_cost_total IS NOT NULL GROUP BY ts ORDER BY ts",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [
+                  {
+                    "label": "ts",
+                    "alias": "ts",
+                    "column": "ts",
+                    "color": null
+                  }
+                ],
+                "y": [
+                  {
+                    "label": "input_cost",
+                    "alias": "input_cost",
+                    "column": "input_cost",
+                    "color": null
+                  },
+                  {
+                    "label": "output_cost",
+                    "alias": "output_cost",
+                    "column": "output_cost",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 0,
+            "y": 28,
+            "w": 128,
+            "h": 20,
+            "i": 7
+          }
+        },
+        {
+          "id": "panel_tokens_by_model",
+          "type": "bar",
+          "title": "Token Usage by Model",
+          "description": "Input vs output token breakdown per model",
+          "config": {
+            "show_legends": true,
+            "legends_position": null,
+            "unit": "numbers",
+            "decimals": 0,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "",
+          "queries": [
+            {
+              "query": "SELECT gen_ai_request_model as model, SUM(llm_usage_tokens_input) as input_tokens, SUM(llm_usage_tokens_output) as output_tokens FROM sre_agent_traces_introspection WHERE llm_usage_tokens_total IS NOT NULL AND gen_ai_request_model IS NOT NULL GROUP BY model ORDER BY input_tokens DESC",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [
+                  {
+                    "label": "model",
+                    "alias": "model",
+                    "column": "model",
+                    "color": null
+                  }
+                ],
+                "y": [
+                  {
+                    "label": "input_tokens",
+                    "alias": "input_tokens",
+                    "column": "input_tokens",
+                    "color": null
+                  },
+                  {
+                    "label": "output_tokens",
+                    "alias": "output_tokens",
+                    "column": "output_tokens",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 128,
+            "y": 28,
+            "w": 64,
+            "h": 20,
+            "i": 8
+          }
+        },
+        {
+          "id": "panel_token_trend",
+          "type": "bar",
+          "title": "Token Usage Over Time",
+          "description": "Input vs output token consumption trend",
+          "config": {
+            "show_legends": true,
+            "legends_position": null,
+            "unit": "numbers",
+            "decimals": 0,
+            "line_interpolation": "smooth",
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "sql",
+          "queries": [
+            {
+              "query": "SELECT histogram(_timestamp) as ts, SUM(llm_usage_tokens_input) as input_tokens, SUM(llm_usage_tokens_output) as output_tokens FROM sre_agent_traces_introspection WHERE llm_usage_tokens_total IS NOT NULL GROUP BY ts ORDER BY ts",
+              "vrlFunctionQuery": "",
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [
+                  {
+                    "label": "ts",
+                    "alias": "ts",
+                    "column": "ts",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  }
+                ],
+                "y": [
+                  {
+                    "label": "input_tokens",
+                    "alias": "input_tokens",
+                    "column": "input_tokens",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  },
+                  {
+                    "label": "output_tokens",
+                    "alias": "output_tokens",
+                    "column": "output_tokens",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 0,
+            "y": 48,
+            "w": 192,
+            "h": 20,
+            "i": 9
+          },
+          "htmlContent": "",
+          "markdownContent": "",
+          "customChartContent": " // To know more about ECharts , \n// visit: https://echarts.apache.org/examples/en/index.html \n// Example: https://echarts.apache.org/examples/en/editor.html?c=line-simple \n// Define your ECharts 'option' here. \n// 'data' variable is available for use and contains the response data from the search result and it is an array.\noption = {  \n \n};\n  "
+        },
+        {
+          "id": "panel_cost_by_operation",
+          "type": "bar",
+          "title": "Cost by Operation (Top 10)",
+          "description": "Most expensive operations by total cost",
+          "config": {
+            "show_legends": true,
+            "legends_position": null,
+            "decimals": 4,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "",
+          "queries": [
+            {
+              "query": "SELECT operation_name, SUM(llm_usage_cost_total) as total_cost, COUNT(_timestamp) as call_count FROM sre_agent_traces_introspection WHERE llm_usage_cost_total IS NOT NULL AND llm_usage_cost_total > 0 GROUP BY operation_name ORDER BY total_cost DESC LIMIT 10",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [
+                  {
+                    "label": "operation_name",
+                    "alias": "operation_name",
+                    "column": "operation_name",
+                    "color": null
+                  }
+                ],
+                "y": [
+                  {
+                    "label": "total_cost",
+                    "alias": "total_cost",
+                    "column": "total_cost",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 0,
+            "y": 68,
+            "w": 96,
+            "h": 20,
+            "i": 10
+          }
+        },
+        {
+          "id": "panel_avg_cost_per_call",
+          "type": "bar",
+          "title": "Avg Cost per Call by Model ($)",
+          "description": "Average cost per LLM call by model",
+          "config": {
+            "show_legends": true,
+            "legends_position": null,
+            "decimals": 6,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "",
+          "queries": [
+            {
+              "query": "SELECT gen_ai_request_model as model, AVG(llm_usage_cost_total) as avg_cost, COUNT(_timestamp) as call_count FROM sre_agent_traces_introspection WHERE llm_usage_cost_total IS NOT NULL AND llm_usage_cost_total > 0 AND gen_ai_request_model IS NOT NULL GROUP BY model ORDER BY avg_cost DESC",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [
+                  {
+                    "label": "model",
+                    "alias": "model",
+                    "column": "model",
+                    "color": null
+                  }
+                ],
+                "y": [
+                  {
+                    "label": "avg_cost",
+                    "alias": "avg_cost",
+                    "column": "avg_cost",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 96,
+            "y": 68,
+            "w": 96,
+            "h": 20,
+            "i": 11
+          }
+        },
+        {
+          "id": "panel_costliest_spans",
+          "type": "table",
+          "title": "Costliest LLM Spans and User Messages",
+          "description": "Top 25 most expensive LLM spans with cost, token usage, model, and the last user message that triggered them",
+          "config": {
+            "show_legends": false,
+            "legends_position": null,
+            "base_map": null,
+            "map_view": null,
+            "wrap_table_cells": true,
+            "sticky_first_column": true,
+            "table_pagination": true
+          },
+          "queryType": "sql",
+          "queries": [
+            {
+              "query": "SELECT span_id, operation_name, llm_usage_cost_total, llm_usage_tokens_input, llm_usage_tokens_output, llm_usage_tokens_total, gen_ai_request_model, llm_input FROM sre_agent_traces_introspection WHERE llm_usage_cost_total IS NOT NULL AND llm_usage_cost_total > 0 ORDER BY llm_usage_cost_total DESC LIMIT 25",
+              "vrlFunctionQuery": "# Extract last user message from llm_input JSON array\n.last_user_message = \"\"\nif exists(.llm_input) && .llm_input != null {\n  parsed, err = parse_json(.llm_input)\n  if err == null {\n    if is_array(parsed) {\n      last_user = \"\"\n      for_each(array!(parsed)) -> |_index, item| {\n        if is_object(item) {\n          role = get(item, [\"role\"]) ?? \"\"\n          if role == \"user\" {\n            content = get(item, [\"content\"]) ?? \"\"\n            last_user = string!(content)\n          }\n        }\n      }\n      .last_user_message = last_user\n    }\n  }\n}\ndel(.llm_input)\n.",
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [
+                  {
+                    "label": "span_id",
+                    "alias": "span_id",
+                    "column": "span_id",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  }
+                ],
+                "y": [
+                  {
+                    "label": "last_user_message",
+                    "alias": "last_user_message",
+                    "type": "build",
+                    "color": "#5960b2",
+                    "args": [
+                      {
+                        "type": "field",
+                        "value": {
+                          "field": "last_user_message",
+                          "streamAlias": null
+                        }
+                      }
+                    ],
+                    "isDerived": true,
+                    "havingConditions": [],
+                    "treatAsNonTimestamp": true,
+                    "showFieldAsJson": false
+                  },
+                  {
+                    "label": "llm_usage_cost_total",
+                    "alias": "llm_usage_cost_total",
+                    "column": "llm_usage_cost_total",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  },
+                  {
+                    "label": "llm_usage_tokens_input",
+                    "alias": "llm_usage_tokens_input",
+                    "column": "llm_usage_tokens_input",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  },
+                  {
+                    "label": "llm_usage_tokens_output",
+                    "alias": "llm_usage_tokens_output",
+                    "column": "llm_usage_tokens_output",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  },
+                  {
+                    "label": "llm_usage_tokens_total",
+                    "alias": "llm_usage_tokens_total",
+                    "column": "llm_usage_tokens_total",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 0,
+            "y": 88,
+            "w": 192,
+            "h": 30,
+            "i": 12
+          },
+          "htmlContent": "",
+          "markdownContent": "",
+          "customChartContent": " // To know more about ECharts , \n// visit: https://echarts.apache.org/examples/en/index.html \n// Example: https://echarts.apache.org/examples/en/editor.html?c=line-simple \n// Define your ECharts 'option' here. \n// 'data' variable is available for use and contains the response data from the search result and it is an array.\noption = {  \n \n};\n  "
+        },
+        {
+          "id": "panel_cost_per_user",
+          "type": "table",
+          "title": "Cost per User",
+          "description": "Total LLM cost, token usage, and call count broken down by user",
+          "config": {
+            "show_legends": false,
+            "legends_position": null,
+            "unit": "numbers",
+            "decimals": 4,
+            "base_map": null,
+            "map_view": null,
+            "override_config": [
+              {
+                "field": {
+                  "matchBy": "name",
+                  "value": "total_cost"
+                },
+                "config": [
+                  {
+                    "type": "unit",
+                    "value": {
+                      "unit": "custom",
+                      "customUnit": ""
+                    }
+                  }
+                ]
+              },
+              {
+                "field": {
+                  "matchBy": "name",
+                  "value": "llm_calls"
+                },
+                "config": [
+                  {
+                    "type": "unit",
+                    "value": {
+                      "unit": "numbers",
+                      "customUnit": ""
+                    }
+                  }
+                ]
+              },
+              {
+                "field": {
+                  "matchBy": "name",
+                  "value": "input_tokens"
+                },
+                "config": [
+                  {
+                    "type": "unit",
+                    "value": {
+                      "unit": "numbers",
+                      "customUnit": ""
+                    }
+                  }
+                ]
+              },
+              {
+                "field": {
+                  "matchBy": "name",
+                  "value": "output_tokens"
+                },
+                "config": [
+                  {
+                    "type": "unit",
+                    "value": {
+                      "unit": "numbers",
+                      "customUnit": ""
+                    }
+                  }
+                ]
+              }
+            ],
+            "wrap_table_cells": true,
+            "sticky_first_column": true,
+            "table_pagination": true
+          },
+          "queryType": "sql",
+          "queries": [
+            {
+              "query": "SELECT user_id, SUM(llm_usage_cost_total) as total_cost, COUNT(_timestamp) as llm_calls, SUM(llm_usage_tokens_input) as input_tokens, SUM(llm_usage_tokens_output) as output_tokens FROM sre_agent_traces_introspection WHERE llm_usage_cost_total IS NOT NULL AND llm_usage_cost_total > 0 AND user_id IS NOT NULL GROUP BY user_id ORDER BY total_cost DESC",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [
+                  {
+                    "label": "User",
+                    "alias": "user_id",
+                    "column": "user_id",
+                    "color": null
+                  }
+                ],
+                "y": [
+                  {
+                    "label": "Total Cost ($)",
+                    "alias": "total_cost",
+                    "column": "total_cost",
+                    "color": null
+                  },
+                  {
+                    "label": "LLM Calls",
+                    "alias": "llm_calls",
+                    "column": "llm_calls",
+                    "color": null
+                  },
+                  {
+                    "label": "Input Tokens",
+                    "alias": "input_tokens",
+                    "column": "input_tokens",
+                    "color": null
+                  },
+                  {
+                    "label": "Output Tokens",
+                    "alias": "output_tokens",
+                    "column": "output_tokens",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 0,
+            "y": 118,
+            "w": 192,
+            "h": 20,
+            "i": 13
+          }
+        }
+      ]
+    },
+    {
+      "tabId": "82126",
+      "name": "Tool Monitoring",
+      "panels": [
+        {
+          "id": "tm_panel1",
+          "type": "bar",
+          "title": "Most Frequently Called Tools",
+          "description": "Real tool names extracted from tools_call args (llm_input field)",
+          "config": {
+            "show_legends": true,
+            "legends_position": "bottom",
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "sql",
+          "queries": [
+            {
+              "query": "SELECT spath(llm_input, 'tool') as x_axis_1, COUNT(_timestamp) as y_axis_1 FROM \"sre_agent_traces_introspection\" WHERE gen_ai_tool_name = 'tools_call' AND llm_input IS NOT NULL GROUP BY x_axis_1 ORDER BY y_axis_1 DESC LIMIT 20",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [
+                  {
+                    "label": "Tool Name",
+                    "alias": "x_axis_1",
+                    "column": "x_axis_1",
+                    "type": "custom",
+                    "color": null
+                  }
+                ],
+                "y": [
+                  {
+                    "label": "Call Count",
+                    "alias": "y_axis_1",
+                    "column": "y_axis_1",
+                    "type": "custom",
+                    "color": "#5960b2"
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 0,
+            "y": 0,
+            "w": 192,
+            "h": 16,
+            "i": 1
+          }
+        },
+        {
+          "id": "tm_panel2",
+          "type": "bar",
+          "title": "Input/Output Token Ratio Over Time",
+          "description": "Average ratio of output tokens to input tokens (5-minute intervals)",
+          "config": {
+            "show_legends": true,
+            "legends_position": "bottom",
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "sql",
+          "queries": [
+            {
+              "query": "SELECT histogram(_timestamp) as x_axis_1, AVG(CAST(llm_usage_tokens_output AS DOUBLE) / NULLIF(CAST(llm_usage_tokens_input AS DOUBLE), 0)) as y_axis_1 FROM \"sre_agent_traces_introspection\" GROUP BY x_axis_1 ORDER BY x_axis_1",
+              "vrlFunctionQuery": "",
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [
+                  {
+                    "label": "Time",
+                    "alias": "x_axis_1",
+                    "column": "x_axis_1",
+                    "type": "custom",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  }
+                ],
+                "y": [
+                  {
+                    "label": "Avg Output/Input Ratio",
+                    "alias": "y_axis_1",
+                    "column": "y_axis_1",
+                    "type": "custom",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 0,
+            "y": 16,
+            "w": 192,
+            "h": 16,
+            "i": 2
+          },
+          "htmlContent": "",
+          "markdownContent": "",
+          "customChartContent": " // To know more about ECharts , \n// visit: https://echarts.apache.org/examples/en/index.html \n// Example: https://echarts.apache.org/examples/en/editor.html?c=line-simple \n// Define your ECharts 'option' here. \n// 'data' variable is available for use and contains the response data from the search result and it is an array.\noption = {  \n \n};\n  "
+        },
+        {
+          "id": "tm_panel3",
+          "type": "metric",
+          "title": "P99 Trace Cost",
+          "description": "99th percentile trace cost in USD",
+          "config": {
+            "show_legends": false,
+            "legends_position": null,
+            "unit": "custom",
+            "unit_custom": "$",
+            "decimals": 4,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "sql",
+          "queries": [
+            {
+              "query": "SELECT APPROX_PERCENTILE_CONT(llm_usage_cost_total, 0.99) as y_axis_1 FROM \"sre_agent_traces_introspection\"",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [],
+                "y": [
+                  {
+                    "label": "P99 Cost",
+                    "alias": "y_axis_1",
+                    "column": "y_axis_1",
+                    "type": "custom",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 0,
+            "y": 32,
+            "w": 64,
+            "h": 12,
+            "i": 3
+          }
+        },
+        {
+          "id": "tm_panel4",
+          "type": "metric",
+          "title": "P75 Trace Cost",
+          "description": "75th percentile trace cost in USD",
+          "config": {
+            "show_legends": false,
+            "legends_position": null,
+            "unit": "custom",
+            "unit_custom": "$",
+            "decimals": 4,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "sql",
+          "queries": [
+            {
+              "query": "SELECT APPROX_PERCENTILE_CONT(llm_usage_cost_total, 0.75) as y_axis_1 FROM \"sre_agent_traces_introspection\"",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [],
+                "y": [
+                  {
+                    "label": "P75 Cost",
+                    "alias": "y_axis_1",
+                    "column": "y_axis_1",
+                    "type": "custom",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 64,
+            "y": 32,
+            "w": 64,
+            "h": 12,
+            "i": 4
+          }
+        },
+        {
+          "id": "tm_panel5",
+          "type": "metric",
+          "title": "P50 Trace Cost (Median)",
+          "description": "50th percentile (median) trace cost in USD",
+          "config": {
+            "show_legends": false,
+            "legends_position": null,
+            "unit": "custom",
+            "unit_custom": "$",
+            "decimals": 4,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "sql",
+          "queries": [
+            {
+              "query": "SELECT APPROX_PERCENTILE_CONT(llm_usage_cost_total, 0.50) as y_axis_1 FROM \"sre_agent_traces_introspection\"",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [],
+                "y": [
+                  {
+                    "label": "P50 Cost",
+                    "alias": "y_axis_1",
+                    "column": "y_axis_1",
+                    "type": "custom",
+                    "color": null
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 128,
+            "y": 32,
+            "w": 64,
+            "h": 12,
+            "i": 5
+          }
+        },
+        {
+          "id": "tm_panel6",
+          "type": "scatter",
+          "title": "Tool Call Failure Rate",
+          "description": "Percentage of failed tool calls over time (5-minute intervals)",
+          "config": {
+            "show_legends": true,
+            "legends_position": "bottom",
+            "unit": "percent",
+            "decimals": 1,
+            "step_value": "0",
+            "top_results_others": true,
+            "axis_border_show": false,
+            "label_option": {
+              "rotate": 0
+            },
+            "show_symbol": false,
+            "line_interpolation": "smooth",
+            "legend_width": {
+              "unit": "px"
+            },
+            "legend_height": {
+              "unit": "px"
+            },
+            "base_map": null,
+            "map_type": {
+              "type": "world"
+            },
+            "map_view": null,
+            "map_symbol_style": {
+              "size": "by Value",
+              "size_by_value": {
+                "min": 1,
+                "max": 100
+              },
+              "size_fixed": 2
+            },
+            "drilldown": [],
+            "mark_line": [],
+            "connect_nulls": false,
+            "no_value_replacement": "",
+            "wrap_table_cells": false,
+            "table_transpose": false,
+            "table_dynamic_columns": false,
+            "color": {
+              "mode": "palette-classic-by-series",
+              "fixedColor": [],
+              "seriesBy": "last",
+              "colorBySeries": []
+            },
+            "trellis": {
+              "layout": null,
+              "num_of_columns": 1,
+              "group_by_y_axis": false
+            },
+            "show_gridlines": true
+          },
+          "queryType": "sql",
+          "queries": [
+            {
+              "query": "SELECT histogram(_timestamp, '5 minute') as x_axis_1, SUM(CASE WHEN span_status = 'ERROR' OR status_code != 0 THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(_timestamp), 0) as y_axis_1, 'Failure Rate' as series_name FROM \"sre_agent_traces_introspection\" WHERE str_match(operation_name, 'tool') OR str_match(operation_name, 'execute_tool') GROUP BY x_axis_1 ORDER BY x_axis_1",
+              "vrlFunctionQuery": "",
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [
+                  {
+                    "label": "Time",
+                    "alias": "x_axis_1",
+                    "column": "x_axis_1",
+                    "type": "custom",
+                    "color": null,
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  }
+                ],
+                "y": [
+                  {
+                    "label": "Failure Rate (%)",
+                    "alias": "y_axis_1",
+                    "column": "y_axis_1",
+                    "type": "custom",
+                    "color": "#e84749",
+                    "treatAsNonTimestamp": false,
+                    "showFieldAsJson": false
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 0,
+            "y": 44,
+            "w": 128,
+            "h": 14,
+            "i": 6
+          },
+          "htmlContent": "",
+          "markdownContent": "",
+          "customChartContent": " // To know more about ECharts , \n// visit: https://echarts.apache.org/examples/en/index.html \n// Example: https://echarts.apache.org/examples/en/editor.html?c=line-simple \n// Define your ECharts 'option' here. \n// 'data' variable is available for use and contains the response data from the search result and it is an array.\noption = {  \n \n};\n  "
+        },
+        {
+          "id": "tm_panel7",
+          "type": "gauge",
+          "title": "Avg Error Rate Per Trace",
+          "description": "Average percentage of errors across all traces",
+          "config": {
+            "show_legends": false,
+            "legends_position": null,
+            "unit": "percent",
+            "decimals": 2,
+            "base_map": null,
+            "map_view": null
+          },
+          "queryType": "sql",
+          "queries": [
+            {
+              "query": "SELECT AVG(CASE WHEN span_status = 'ERROR' OR status_code != 0 THEN 100.0 ELSE 0.0 END) as y_axis_1 FROM \"sre_agent_traces_introspection\"",
+              "vrlFunctionQuery": null,
+              "customQuery": true,
+              "fields": {
+                "stream": "sre_agent_traces_introspection",
+                "stream_type": "traces",
+                "x": [],
+                "y": [
+                  {
+                    "label": "Avg Error Rate",
+                    "alias": "y_axis_1",
+                    "column": "y_axis_1",
+                    "type": "custom",
+                    "color": "#e84749"
+                  }
+                ],
+                "z": [],
+                "filter": {
+                  "type": "list",
+                  "values": [],
+                  "column": null,
+                  "operator": null,
+                  "value": null,
+                  "logicalOperator": "AND",
+                  "filterType": "list"
+                }
+              },
+              "config": {
+                "promql_legend": ""
+              }
+            }
+          ],
+          "layout": {
+            "x": 128,
+            "y": 44,
+            "w": 64,
+            "h": 14,
+            "i": 7
+          }
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "list": [],
+    "showDynamicFilters": false
+  },
+  "defaultDatetimeDuration": {
+    "type": "relative",
+    "relativeTimePeriod": "4d"
+  }
+}
